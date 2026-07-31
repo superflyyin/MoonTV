@@ -1,0 +1,27 @@
+name: Auto Fetch Remote Config Daily
+
+on:
+  schedule:
+    # 每天 UTC 时间 21:00 (北京时间凌晨 05:00) 自动执行
+    - cron: '0 21 * * *'
+  # 允许手动在 GitHub 页面上点击按钮立即触发更新
+  workflow_dispatch:
+
+jobs:
+  update-config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Download Latest Config
+        run: |
+          # 请确保将下方 URL 替换为您真实的配置文件直链
+          curl -sSL "https://lunatv-config-e9e.pages.dev/jin18.json" -o public/config.json
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add public/config.json
+          git diff --staged --quiet || (git commit -m "chore: auto update config.json from remote" && git push)

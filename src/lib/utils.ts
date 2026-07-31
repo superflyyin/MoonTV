@@ -37,11 +37,7 @@ export function processImageUrl(originalUrl: string): string {
   const proxyUrl = getImageProxyUrl();
   if (!proxyUrl) return originalUrl;
 
-  // 将 https:// 或 http:// 替换为空，或者只转码协议之后的内容
-  // wsrv.nl 支持直接去掉协议头：https://wsrv.nl/?url=img9.doubanio.com/view/...
-  const cleanUrl = originalUrl.replace(/^https?:\/\//, '');
-
-  return `${proxyUrl}${cleanUrl}`;
+  return `${proxyUrl}${originalUrl}`;
 }
 
 export function cleanHtmlTags(text: string): string {

@@ -37,7 +37,7 @@ export function processImageUrl(originalUrl: string): string {
   const proxyUrl = getImageProxyUrl();
   if (!proxyUrl) return originalUrl;
 
-  return `${proxyUrl}${originalUrl}`;
+  return `${proxyUrl}${encodeURIComponent(originalUrl)}`;
 }
 
 export function cleanHtmlTags(text: string): string {

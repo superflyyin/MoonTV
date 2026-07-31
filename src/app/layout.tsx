@@ -23,6 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: siteName,
     description: '影视聚合',
     manifest: '/manifest.json',
+    referrer: 'no-referrer', // 👈 新加这一行，自动在 <head> 中插入 meta referrer
   };
 }
 

@@ -35,9 +35,21 @@ export function processImageUrl(originalUrl: string): string {
   if (!originalUrl) return originalUrl;
 
   const proxyUrl = getImageProxyUrl();
-  if (!proxyUrl) return originalUrl;
 
-  return `${proxyUrl}${encodeURIComponent(originalUrl)}`;
+  // 1. 如果在设置里填了自定义代理（且包含 ?url= 等参数），走参数拼接逻辑
+  if (proxyUrl) {
+    return `${proxyUrl}${encodeURIComponent(originalUrl)}`;
+  }
+
+  // 2. 如果没有自定义代理，且属于豆瓣图片，自动替换为 CMLiussss 阿里云 CDN（解决 418 报错）
+  if (originalUrl.includes('doubanio.com')) {
+    return originalUrl.replace(
+      /img\d+\.doubanio\.com/g,
+      'img.doubanio.cmliussss.com'
+    );
+  }
+
+  return originalUrl;
 }
 
 export function cleanHtmlTags(text: string): string {

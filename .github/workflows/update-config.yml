@@ -17,7 +17,7 @@ jobs:
       - name: Download Latest Config
         run: |
           # 请确保将下方 URL 替换为您真实的配置文件直链
-          curl -sSL "https://lunatv-config-e9e.pages.dev/jin18.json" -o public/config.json
+          curl -sSL "https://raw.githubusercontent.com/superflyyin/LunaTV-config/refs/heads/main/jin18.json" -o public/config.json
 
       - name: Commit and Push Changes
         run: |

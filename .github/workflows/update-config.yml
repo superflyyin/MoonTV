@@ -2,8 +2,8 @@ name: Auto Fetch Remote Config Daily
 
 on:
   schedule:
-    # 每天 UTC 时间 21:00 (北京时间凌晨 05:00) 自动执行
-    - cron: '0 21 * * *'
+    # 每天 UTC 时间 21:15 (北京时间凌晨 05:15) 自动执行
+    - cron: '15 21 * * *'
   # 允许手动在 GitHub 页面上点击按钮立即触发更新
   workflow_dispatch:
 

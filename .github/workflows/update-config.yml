@@ -7,6 +7,10 @@ on:
   # 允许手动在 GitHub 页面上点击按钮立即触发更新
   workflow_dispatch:
 
+# 必须显式声明写入权限，否则 git push 无法写入仓库
+permissions:
+  contents: write
+
 jobs:
   update-config:
     runs-on: ubuntu-latest
@@ -16,7 +20,7 @@ jobs:
 
       - name: Download Latest Config
         run: |
-          # 请确保将下方 URL 替换为您真实的配置文件直链
+          mkdir -p public
           curl -sSL "https://raw.githubusercontent.com/superflyyin/LunaTV-config/refs/heads/main/jin18.json" -o public/config.json
 
       - name: Commit and Push Changes
@@ -24,4 +28,11 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add public/config.json
-          git diff --staged --quiet || (git commit -m "chore: auto update config.json from remote" && git push)
+          
+          # 如果有变更则提交并推送，无变更则输出提示信息
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: auto update config.json from remote"
+            git push
+          else
+            echo "No changes detected in config.json"
+          fi
